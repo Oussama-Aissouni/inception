@@ -1,0 +1,17 @@
+server 
+{
+    listen 443 ssl;
+    ssl_certificate /etc/nginx/ssl/oaissoun.42.fr.pem;
+    ssl_certificate_key /etc/nginx/ssl/oaissoun.42.fr-key.pem;
+    ssl_protocols   TLSv1.3;
+    server_name oaissoun.42.fr www.oaissoun.42.fr;
+    root /var/www/html/;
+    index index.php;
+
+    location ~ \.php$ {
+        try_files $uri =404;
+        include fastcgi_params;
+        fastcgi_param  SCRIPT_FILENAME $document_root$fastcgi_script_name;
+        fastcgi_pass wordpress:9000;
+    }
+}
